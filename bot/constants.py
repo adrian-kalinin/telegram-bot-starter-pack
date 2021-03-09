@@ -12,9 +12,9 @@ class CallbackData:
 
 
 class ReplyButtons:
-    send_mailing = 'Разослать'
-    preview_mailing = 'Предпросмотр'
-    cancel_mailing = 'Отменить'
+    send_mailing = 'Send'
+    preview_mailing = 'Preview'
+    cancel_mailing = 'Cancel'
 
 
 class Keyboard:
@@ -23,8 +23,8 @@ class Keyboard:
     ])
 
     admin = InlineKeyboardMarkup([
-        [InlineKeyboardButton('Посмотреть статистику', callback_data=CallbackData.statistics)],
-        [InlineKeyboardButton('Создать рассылку', callback_data=CallbackData.mailing)]
+        [InlineKeyboardButton('Check statistics', callback_data=CallbackData.statistics)],
+        [InlineKeyboardButton('Create broadcast', callback_data=CallbackData.mailing)]
     ])
 
     mailing = ReplyKeyboardMarkup([
@@ -34,27 +34,27 @@ class Keyboard:
 
 
 class Message:
-    start = '<b>Приветствую в боте :)</b>'
+    start = '<b>Hello there!</b>'
 
-    admin = 'Добро пожаловать в админскую панель!'
+    admin = 'Welcome to the admin panel!'
 
     statistics = (
-        'Статистика бота:\n\n'
-        'Всего пользователей: <b>{total_users}</b>\n'
-        'Активных пользователей: <b>{active_users}</b>'
+        "Bot's statistics:\n\n"
+        'Users in total: <b>{total_users}</b>\n'
+        'Active users: <b>{active_users}</b>'
     )
 
-    mailing = 'Отправьте сообщение для рассылки'
+    mailing = 'Send a messaged for the broadcast'
 
-    received_mailing = 'Сообщение для рассылки получено. Что делать дальше?'
+    received_mailing = "The message has been received. What's next?"
 
-    mailing_canceled = 'Рассылка отменена'
+    mailing_canceled = 'Broadcast has been cancelled'
 
-    mailing_started = 'Рассылка успешно началась'
+    mailing_started = 'Broadcast had started'
 
     mailing_finished = (
-        'Сообщение было успешно отправлено:\n\n'
-        'Пользователи, получившие сообщение: {sent_count}'
+        'Message has been sent:\n\n'
+        'Users that perceived the message: {sent_count}'
     )
 
     unexpected_error = '<code>Telegram Error: {error}.\n\n{update}</code>'

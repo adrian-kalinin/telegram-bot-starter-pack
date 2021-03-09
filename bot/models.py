@@ -1,4 +1,4 @@
-from peewee import SqliteDatabase, Model, BigIntegerField, BooleanField
+from peewee import SqliteDatabase, Model, IntegerField, BooleanField
 from configparser import ConfigParser
 
 
@@ -20,5 +20,5 @@ class BaseModel(Model):
 
 # model that represents user
 class User(BaseModel):
-    user_id = BigIntegerField(primary_key=True, unique=True)
+    user_id = IntegerField(primary_key=True, unique=True)
     active = BooleanField(default=True)
