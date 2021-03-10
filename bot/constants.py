@@ -9,6 +9,7 @@ class States:
 class CallbackData:
     statistics = 'statistics'
     mailing = 'mailing'
+    backup = 'backup'
 
 
 class ReplyButtons:
@@ -24,7 +25,8 @@ class Keyboard:
 
     admin = InlineKeyboardMarkup([
         [InlineKeyboardButton('Check statistics', callback_data=CallbackData.statistics)],
-        [InlineKeyboardButton('Create broadcast', callback_data=CallbackData.mailing)]
+        [InlineKeyboardButton('Create broadcast', callback_data=CallbackData.mailing)],
+        [InlineKeyboardButton('Backup database', callback_data=CallbackData.backup)]
     ])
 
     mailing = ReplyKeyboardMarkup([
@@ -59,3 +61,6 @@ class Message:
 
     unexpected_error = '<code>Telegram Error: {error}.\n\n{update}</code>'
 
+    backup = 'Backup of the database ({})'
+
+    database_not_found = 'Database not found'

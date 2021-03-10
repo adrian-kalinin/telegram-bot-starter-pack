@@ -1,11 +1,8 @@
 from telegram.ext import CommandHandler, MessageHandler, CallbackQueryHandler, ConversationHandler, Filters
 from configparser import ConfigParser
 
-from .callbacks import (
-    admin_command_callback, start_command_callback, statistics_callback, mailing_callback,
-    mailing_message_callback, preview_mailing_callback, cancel_mailing_callback, send_mailing_callback
-)
 from .constants import CallbackData, States, ReplyButtons
+from .callbacks import *
 
 
 # parse config
@@ -30,6 +27,11 @@ start_handler = CommandHandler(
 statistics_handler = CallbackQueryHandler(
     pattern=CallbackData.statistics,
     callback=statistics_callback
+)
+
+backup_handler = CallbackQueryHandler(
+    pattern=CallbackData.backup,
+    callback=backup_callback
 )
 
 # mailing handlers

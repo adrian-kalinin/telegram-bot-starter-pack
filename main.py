@@ -5,9 +5,10 @@ import logging
 
 from bot.models import database, User
 from bot.callbacks import error_callback
+
 from bot.handlers import (
     start_handler, admin_handler,
-    statistics_handler, mailing_conversation_handler
+    statistics_handler, backup_handler, mailing_conversation_handler
 )
 
 
@@ -38,6 +39,7 @@ def bound_handlers():
 
     # admin handlers
     dispatcher.add_handler(statistics_handler)
+    dispatcher.add_handler(backup_handler)
 
     # mailing handlers
     dispatcher.add_handler(mailing_conversation_handler)
