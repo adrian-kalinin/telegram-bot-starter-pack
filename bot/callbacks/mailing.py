@@ -1,6 +1,5 @@
 from telegram import Update, Message as TelegramMessage, TelegramError, Bot, PhotoSize, Animation, Video, ParseMode
 from telegram.ext import CallbackContext, ConversationHandler
-
 from threading import Thread
 import logging
 import time
@@ -158,9 +157,10 @@ def __send_mailing_callback(update: Update, context: CallbackContext):
     )
 
     logging.info('Mailing has finished')
-    return ConversationHandler.END
 
 
 def send_mailing_callback(update: Update, context: CallbackContext):
     mailing_thread = Thread(target=__send_mailing_callback, args=(update, context))
     mailing_thread.start()
+
+    return ConversationHandler.END

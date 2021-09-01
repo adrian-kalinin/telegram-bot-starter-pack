@@ -1,26 +1,19 @@
 from telegram.ext import CommandHandler, MessageHandler, CallbackQueryHandler, ConversationHandler, Filters
-from configparser import ConfigParser
 
+from settings import ADMINS
 from .constants import CallbackData, States, ReplyButtons
 from .callbacks import *
-
-
-# parse config
-config = ConfigParser()
-config.read('config.ini')
-
-# parser admin list
-admins = tuple(map(int, config.get('bot', 'admins').split(',')))
 
 
 # command handlers
 admin_handler = CommandHandler(
     command='admin', callback=admin_command_callback,
-    filters=Filters.user(user_id=admins)
+    filters=Filters.user(user_id=ADMINS) & Filters.private
 )
 
 start_handler = CommandHandler(
-    command='start', callback=start_command_callback
+    command='start', callback=start_command_callback,
+    filters=Filters.private
 )
 
 # admin handlers
@@ -40,10 +33,22 @@ mailing_conversation_handler = ConversationHandler(
     states={
         States.prepare_mailing: [MessageHandler(callback=mailing_message_callback, filters=Filters.all)],
         States.received_mailing: [
-            MessageHandler(filters=Filters.text(ReplyButtons.preview_mailing), callback=preview_mailing_callback),
-            MessageHandler(filters=Filters.text(ReplyButtons.cancel_mailing), callback=cancel_mailing_callback),
-            MessageHandler(filters=Filters.text(ReplyButtons.send_mailing), callback=send_mailing_callback)
+            MessageHandler(
+                filters=Filters.text(ReplyButtons.preview_mailing) & Filters.private,
+                callback=preview_mailing_callback
+            ),
+            MessageHandler(
+                filters=Filters.text(ReplyButtons.cancel_mailing) & Filters.private,
+                callback=cancel_mailing_callback
+            ),
+            MessageHandler(
+                filters=Filters.text(ReplyButtons.send_mailing) & Filters.private,
+                callback=send_mailing_callback
+            )
         ]
     },
     fallbacks=[]
 )
+
+# core handlers
+...

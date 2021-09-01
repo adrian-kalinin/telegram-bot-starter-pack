@@ -1,15 +1,10 @@
 from peewee import SqliteDatabase, Model, IntegerField, BooleanField
-from configparser import ConfigParser
 
-
-# parse config
-config = ConfigParser()
-config.read('config.ini')
-database_path = config.get('database', 'sqlite')
+from settings import SQLITE_PATH
 
 
 # database connection
-database = SqliteDatabase(database_path)
+database = SqliteDatabase(SQLITE_PATH)
 
 
 # base model for other models

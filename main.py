@@ -1,7 +1,7 @@
 from telegram.ext import Updater
-
-from configparser import ConfigParser
 import logging
+
+import settings
 
 from bot.models import database, User
 from bot.callbacks import error_callback
@@ -19,19 +19,17 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-# parse config
-config = ConfigParser()
-config.read('config.ini')
 
 # create updater
-updater = Updater(config.get('bot', 'token'))
+updater = Updater(settings.TOKEN)
 dispatcher = updater.dispatcher
 
 
 # bound handlers to dispatcher
 def bound_handlers():
-    # noinspection PyTypeChecker
-    dispatcher.add_error_handler(error_callback)
+    if not settings.DEBUG:
+        # noinspection PyTypeChecker
+        dispatcher.add_error_handler(error_callback)
 
     # command handlers
     dispatcher.add_handler(admin_handler)
@@ -53,19 +51,33 @@ def configure_database():
     logging.info('Database has been configured')
 
 
-# set up webhook
-def configure_webhook():
-    pass
-
-
 def main():
     # setting up application
     bound_handlers()
     configure_database()
-    configure_webhook()
+
+    # long polling on development
+    if settings.DEBUG:
+        updater.start_polling()
+
+    # webhook on production
+    else:
+        webhook_url = settings.WEBHOOK_URL.format(
+            host=settings.HOST,
+            port=settings.PORT,
+            token=settings.TOKEN
+        )
+
+        updater.start_webhook(
+            listen=settings.LISTEN,
+            port=settings.PORT,
+            url_path=settings.TOKEN,
+            key=settings.PKEY_PATH,
+            cert=settings.CERT_PATH,
+            webhook_url=webhook_url
+        )
 
     # start bot
-    updater.start_polling()
     logging.info('Bot has started')
 
 

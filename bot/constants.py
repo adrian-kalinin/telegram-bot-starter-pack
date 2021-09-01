@@ -21,7 +21,7 @@ class ReplyButtons:
 class Keyboard:
     main = ReplyKeyboardMarkup([
         ['/start']
-    ])
+    ], resize_keyboard=True)
 
     admin = InlineKeyboardMarkup([
         [InlineKeyboardButton('Check statistics', callback_data=CallbackData.statistics)],
@@ -32,11 +32,11 @@ class Keyboard:
     mailing = ReplyKeyboardMarkup([
         [ReplyButtons.send_mailing],
         [ReplyButtons.preview_mailing, ReplyButtons.cancel_mailing]
-    ])
+    ], resize_keyboard=True)
 
 
 class Message:
-    start = '<b>Hello there!</b>'
+    start = '<Hello!'
 
     admin = 'Welcome to the admin panel!'
 

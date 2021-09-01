@@ -1,10 +1,9 @@
 from telegram import Update, ParseMode
 from telegram.ext import CallbackContext
-
-from configparser import ConfigParser
 from datetime import datetime
 import os
 
+from settings import SQLITE_PATH
 from ..models import User
 from ..constants import Message, States
 
@@ -33,10 +32,6 @@ def mailing_callback(update: Update, context: CallbackContext):
 
 
 def backup_callback(update: Update, context: CallbackContext):
-    config = ConfigParser()
-    config.read('config.ini')
-    database_path = config.get('database', 'sqlite')
-
     date = datetime.today().strftime('%d.%m.%Y')
 
     context.bot.delete_message(
@@ -44,8 +39,8 @@ def backup_callback(update: Update, context: CallbackContext):
         message_id=update.effective_message.message_id
     )
 
-    if os.path.isfile(database_path):
-        with open(database_path, 'rb') as file:
+    if os.path.isfile(SQLITE_PATH):
+        with open(SQLITE_PATH, 'rb') as file:
             context.bot.send_document(
                 chat_id=update.effective_chat.id,
                 caption=Message.backup.format(date),
