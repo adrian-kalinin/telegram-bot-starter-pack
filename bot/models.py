@@ -1,10 +1,11 @@
-from peewee import SqliteDatabase, Model, IntegerField, BooleanField
+from peewee import Model, IntegerField, BooleanField
+from playhouse.sqliteq import SqliteQueueDatabase
 
 from settings import SQLITE_PATH
 
 
 # database connection
-database = SqliteDatabase(SQLITE_PATH)
+database = SqliteQueueDatabase(SQLITE_PATH)
 
 
 # base model for other models
